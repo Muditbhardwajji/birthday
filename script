@@ -1,0 +1,114 @@
+/* ---------- CONFIG ---------- */
+const personName = "Freya Mehta";
+const personAge = 17;
+
+const customMessage = `
+HAPPIEST BIRTHDAY TO YOUUU, FREYA MEHTA! 🥳💖<br><br>
+
+It’s your 17th birthday YAYAYAYAYAYAYA! 🎂✨<br><br>
+
+I hope ki tera 17th birthday bohot achha jaaye, aur tujhe bohot saari khushiyaan mile.
+Tu hamesha khush rahe 💫<br><br>
+
+Apne aap ko aur improve karti raha jis se log tujhse dare 😤🔥<br><br>
+
+Aur haan bahar ka zyada mat khaya kar, pagal 😭<br>
+I know, I know, tu meri momo paglu hai, but thoda control… thoda sa bas 🤏
+kadhi chawal kahi ki 😤<br><br>
+
+Aur tu cheeti hai meri bass tu boxing par achhe se dhyaan de 💪🥊<br>
+Tere games bhi aa rahe hain, iss baar gold maarna hai 🥇<br><br>
+
+Tu kar sakti hai yaar, tujhmein woh baat hai jo kisi aur mein nahi hai kya bolte hai english mein
+there’s something about you that no one else has ✨
+`;
+
+
+/* ---------- PAGE LOAD ---------- */
+window.addEventListener("DOMContentLoaded", () => {
+  let ageEl = document.getElementById("age");
+  if (ageEl)
+    ageEl.innerText = `🎂 You are ${personAge} today!`;
+});
+
+
+/* ---------- LOADING ---------- */
+window.addEventListener("load", function(){
+
+  let bar = document.querySelector(".progress-bar");
+  let load = document.getElementById("loading");
+  let content = document.getElementById("content");
+
+  let width = 0;
+
+  let timer = setInterval(function(){
+    width += 5;
+
+    if(bar){
+      bar.style.width = width + "%";
+    }
+
+    if(width >= 100){
+      clearInterval(timer);
+      load.style.display = "none";
+      content.classList.remove("hidden");
+    }
+
+  }, 100);
+
+});
+
+
+
+/* ---------- MUSIC ---------- */
+function playMusic() {
+  let music = document.getElementById("music");
+  if (music) music.play();
+}
+
+
+/* ---------- LETTER OPEN ---------- */
+function openLetter(){
+  const img = document.getElementById("msgImg");
+  const textBox = document.getElementById("msgText");
+
+  if(!img || !textBox) return;
+
+  img.style.transform = "translateX(-150%)";
+  img.style.opacity = "0";
+
+  setTimeout(()=>{
+    img.style.display = "none";
+    textBox.style.display = "block";
+    textBox.innerHTML = customMessage;
+
+    let tapText = document.getElementById("tapText");
+    if (tapText) tapText.style.display = "none";
+  }, 400);
+}
+
+
+/* ---------- MESSAGE → GIFT ---------- */
+function openGiftScreen(){
+  let msg = document.getElementById("messageScreen");
+  let gift = document.getElementById("giftScreen");
+
+  if(msg) msg.style.display="none";
+  if(gift) gift.classList.remove("hidden");
+}
+
+
+/* ---------- GIFT → FINAL ---------- */
+function openGiftFinal(){
+  let gift = document.getElementById("giftScreen");
+  let final = document.getElementById("finalScreen");
+
+  if(gift) gift.style.display="none";
+  if(final) final.classList.remove("hidden");
+}
+
+
+/* ---------- REPLAY ---------- */
+function replay(){
+  location.reload();
+}

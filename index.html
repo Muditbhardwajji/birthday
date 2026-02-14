@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Freya 🎂</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{text-align:center;}
+.hidden{display:none;}
+
+.card{
+  background:#ffe6f0;
+  padding:25px;
+  border-radius:25px;
+  width:320px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-img{
+  width:150px;
+  display:block;
+  margin:0 auto 15px;
+}
+
+.photo{
+  width:100%;
+  max-width:260px;
+  display:block;
+  margin:0 auto 15px;
+  border-radius:15px;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:20px;
+  background:#d291bc;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+}
+
+/* Balloons */
+#balloons{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  margin-top:20px;
+}
+
+.balloon{
+  width:65px;
+  height:85px;
+  border-radius:50% 50% 45% 45%;
+  position:relative;
+  cursor:pointer;
+  transition:.35s;
+  box-shadow:
+    inset -8px -12px 15px rgba(0,0,0,0.12),
+    inset 8px 12px 15px rgba(255,255,255,0.6);
+}
+
+.balloon::before{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:24px;
+  background:rgba(255,255,255,0.55);
+  border-radius:50%;
+  top:16px;
+  left:14px;
+}
+
+.balloon::after{
+  content:"";
+  position:absolute;
+  bottom:-7px;
+  left:50%;
+  transform:translateX(-50%);
+  width:10px;
+  height:10px;
+  background:inherit;
+  border-radius:2px;
+}
+
+.balloon span{
+  position:absolute;
+  bottom:-55px;
+  left:50%;
+  transform:translateX(-50%);
+  width:2px;
+  height:55px;
+  background:#555;
+}
+
+.pink{background:#ff9bb3;}
+.peach{background:#ffd1c1;}
+.cream{background:#ffe4e1;}
+.purple{background:#d6a4ff;}
+
+.balloon.pop{
+  background:transparent;
+  box-shadow:none;
+}
+
+.balloon.pop::before,
+.balloon.pop::after,
+.balloon.pop span{
+  display:none;
+}
+
+.msg{
+  position:absolute;
+  width:100%;
+  text-align:center;
+  top:30%;
+  font-weight:bold;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Loading -->
+<div class="container" id="loading">
+  <div class="card">
+    <h2>Loading your birthday surprise... 🎉</h2>
+
+    <div class="progress">
+      <div class="progress-bar"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Greeting -->
+<div class="container hidden" id="content">
+<h1 id="name"></h1>
+<p id="age"></p>
+<p>Happy Birthday! Stay happy always.</p>
+<button onclick="openCard()">Next Surprise 🎁</button>
+</div>
+
+<!-- Card -->
+<div class="container hidden" id="cardScreen">
+<div class="card">
+<img src="intro.gif" class="card-img">
+<h2>A Cutiepie was born today, 17 years ago! 🎉</h2>
+<p>Yes, it's YOU! A little surprise awaits...</p>
+<button onclick="startSurprise()">🎁 Start the surprise</button>
+</div>
+</div>
+
+<!-- Cake -->
+<div class="container hidden" id="cakeScreen">
+<div class="card">
+<img src="banner1.png" id="banner"
+style="width:100%;margin-bottom:10px;display:none;">
+<img src="cake.webp" class="photo">
+<button id="decorateBtn" onclick="decorateAction()">✨ Decorate</button>
+</div>
+</div>
+
+<!-- Balloons -->
+<div class="container hidden" id="balloonScreen">
+<div class="card">
+<h2>Pop all balloons 🎈</h2>
+
+<div id="balloons">
+<div class="balloon pink" onclick="pop(this)">
+<span></span><div class="msg hidden">You’re</div>
+</div>
+
+<div class="balloon peach" onclick="pop(this)">
+<span></span><div class="msg hidden">literally</div>
+</div>
+
+<div class="balloon cream" onclick="pop(this)">
+<span></span><div class="msg hidden">the</div>
+</div>
+
+<div class="balloon purple" onclick="pop(this)">
+<span></span><div class="msg hidden">best ✨</div>
+</div>
+</div>
+
+<button id="nextBtn" class="hidden"
+style="margin-top:15px;"
+onclick="openMoments()">Next ➜</button>
+
+</div>
+</div>
+
+<!-- Moments -->
+<div class="container hidden" id="momentsScreen">
+<div class="card" style="background:#e6ddff;border-radius:30px;">
+<h2 style="color:#6a5acd;">Some Sweet Moments</h2>
+<p>(Swipe for more)</p>
+
+<img id="momentImg" src="photo1.jpg"
+style="width:220px;border-radius:18px;
+border:6px solid #ffd6e7;margin:15px 0;">
+
+<br>
+<button onclick="prevPhoto()">⬅</button>
+<button onclick="nextPhoto()">➡</button>
+
+<br><br>
+<button onclick="openMessage()">📩 Open My Message</button>
+</div>
+</div>
+
+<!-- Special Message Screen -->
+<div class="container hidden" id="messageScreen">
+<div class="card" style="background:#f3e6ee;border-radius:30px;">
+<h2 style="color:#7b3f73;">A Special Message</h2>
+<p id="tapText">Tap to open</p>
+
+<div class="message-wrapper">
+
+<img src="message.jpg" id="msgImg"
+onclick="openLetter()"
+style="width:220px;border-radius:20px;margin:15px 0;transition:0.5s;cursor:pointer;">
+
+<div id="msgText" style="display:none;margin-top:10px;"></div>
+
+</div>
+
+
+<br>
+<button onclick="openGiftScreen()">Next ➜</button>
+
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const text="Happy Birthday Freyaa Mehtuuuu 🎉";
+let i=0,decorated=false,popped=0;
+
+function typeEffect(){
+if(i<text.length){
+document.getElementById("name").innerHTML+=text.charAt(i);
+i++;setTimeout(typeEffect,60);
+}}
+
+function startConfetti(){
+  confetti({particleCount:120,spread:80,origin:{y:0.6}});
+
+}
+
+setTimeout(()=>{
+loading.style.display="none";
+content.classList.remove("hidden");
+typeEffect();
+startConfetti();
+},2500);
+
+function openCard(){
+content.style.display="none";
+cardScreen.classList.remove("hidden");
+}
+
+function startSurprise(){
+cardScreen.style.display="none";
+cakeScreen.classList.remove("hidden");
+}
+
+function decorateAction(){
+if(!decorated){
+banner.style.display="block";
+decorateBtn.innerText="🎈 Pop the Balloon";
+decorated=true;
+}else{
+cakeScreen.style.display="none";
+balloonScreen.classList.remove("hidden");
+}}
+
+function pop(el){
+if(!el.classList.contains("pop")){
+el.classList.add("pop");
+el.querySelector(".msg").classList.remove("hidden");
+popped++;
+if(popped===4) nextBtn.classList.remove("hidden");
+}}
+
+function openMoments(){
+balloonScreen.style.display="none";
+momentsScreen.classList.remove("hidden");
+}
+
+function openMessage(){
+momentsScreen.style.display="none";
+messageScreen.classList.remove("hidden");
+}
+
+/* Slider */
+const photos=[
+"photo1.jpg","photo2.jpg","photo3.jpg",
+"photo4.jpg","photo5.jpg","photo6.jpg"
+];
+
+let photoIndex=0;
+
+function nextPhoto(){
+photoIndex=(photoIndex+1)%photos.length;
+momentImg.src=photos[photoIndex];
+}
+
+function prevPhoto(){
+photoIndex=(photoIndex-1+photos.length)%photos.length;
+momentImg.src=photos[photoIndex];
+}
+
+/* Swipe */
+let startX=0;
+momentImg.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
+
+momentImg.addEventListener("touchend",e=>{
+let diff=startX-e.changedTouches[0].clientX;
+if(diff>40) nextPhoto();
+else if(diff<-40) prevPhoto();
+});
+</script>
+<script src="script"></script>
+
+<!-- Final Gift Screen -->
+<div class="container hidden" id="giftScreen">
+  <div class="card" style="background:#f3e6ee;border-radius:30px;">
+    <h2 style="color:#7b3f73;">One Last Thing...</h2>
+
+    <img src="gift.gif"
+      onclick="openGiftFinal()"
+      style="width:140px;margin:20px auto;display:block;cursor:pointer;">
+
+    <p>Tap the gift</p>
+  </div>
+</div>
+
+<!-- Final Surprise Screen -->
+<div class="container hidden" id="finalScreen">
+  <div class="card" style="background:#f8cdd7;border-radius:30px;">
+    <img src="surprise.gif"
+      style="width:200px;border-radius:20px;margin-bottom:10px;">
+
+    <h2>Lots of love for you ❤️</h2>
+    <p>Once again, Happy Birthday! Hope you loved your surprise.</p>
+
+    <button onclick="location.reload()">⟳ Replay</button>
+  </div>
+</div>
+
+</body>
+</html>
